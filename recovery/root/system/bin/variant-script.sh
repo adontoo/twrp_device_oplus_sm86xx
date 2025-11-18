@@ -81,6 +81,11 @@ case "$variant" in
         set_oneplus_common "Oneplus ACE 3 Pro" "PJX110" "OP5D06L1" "CN" "0"
         ;;
 
+    "23631")
+        # Realme GT 6 (divo)
+        set_oneplus_common "Realme GT 6" "RMX3800" "RE5C4FL1" "CN" "0"
+        ;;
+
     *)
         # Unknown variant
         log "Unknown variant: $variant"
