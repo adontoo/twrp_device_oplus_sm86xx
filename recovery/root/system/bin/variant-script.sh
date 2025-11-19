@@ -42,6 +42,8 @@ set_oneplus_common() {
     resetprop ro.product.vendor.model "$product_name"
     resetprop ro.product.odm.model "$product_name"
     resetprop ro.boot.hardware.revision "$region"
+    sed -i "s#<text>%tw_version%</text>#<text>3.7.1_16-${usb_name}</text>#g" /twres/ui.xml
+    sed -i "s#<text>%tw_version%</text>#<text>3.7.1_16-${usb_name}</text>#g" /twres/portrait.xml
     log "Variant $usb_name ($product_name) properties all set."
 }
 
