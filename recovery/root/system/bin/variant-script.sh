@@ -50,52 +50,52 @@ set_oneplus_common() {
 case "$variant" in
     "23851")
         # OnePlus ACE 5 (giulia)
-        set_oneplus_common "Oneplus ACE 5" "PKG110" "OP5D2BL1" "CN" "0"
+        set_oneplus_common "OnePlus-ACE-5" "PKG110" "OP5D2BL1" "CN" "0"
         ;;
 
     "23868")
         # OnePlus 13R (giulia)
-        set_oneplus_common "Oneplus 13 R" "CPH2645" "OP5D3BL1" "GL" "0"
+        set_oneplus_common "OnePlus-13-R" "CPH2645" "OP5D3BL1" "GL" "0"
         ;;
 
     "23869")
         # OnePlus 13R (giulia)
-        set_oneplus_common "Oneplus 13 R" "CPH2647" "OP5D3BL1" "NA" "0"
+        set_oneplus_common "OnePlus-13-R" "CPH2647" "OP5D3BL1" "NA" "0"
         ;;
 
     "23867")
         # OnePlus 13R (giulia)
-        set_oneplus_common "Oneplus 13 R" "CPH2691" "OP5D3BL1" "IN" "0"
+        set_oneplus_common "OnePlus-13-R" "CPH2691" "OP5D3BL1" "IN" "0"
         ;;
 
     "23803")
         # OnePlus ACE 3 V (audi)
-        set_oneplus_common "Oneplus ACE 3 V" "PJF110" "OP5CFBL1" "CN" "0"
+        set_oneplus_common "OnePlus-ACE-3-V" "PJF110" "OP5CFBL1" "CN" "0"
         ;;
 
     "24211")
         # OnePlus NORD 4 (audi)
-        set_oneplus_common "Oneplus NORD 4" "CPH2661" "OP5E93L1" "IN" "0"
+        set_oneplus_common "OnePlus-NORD-4" "CPH2661" "OP5E93L1" "IN" "0"
         ;;
 
     "23814")
         # OnePlus ACE 3 PRO (corvette)
-        set_oneplus_common "Oneplus ACE 3 Pro" "PJX110" "OP5D06L1" "CN" "0"
+        set_oneplus_common "OnePlus-ACE-3-Pro" "PJX110" "OP5D06L1" "CN" "0"
         ;;
 
     "23631")
         # Realme GT 6 (divo)
-        set_oneplus_common "Realme GT 6" "RMX3800" "RE5C4FL1" "CN" "0"
+        set_oneplus_common "Realme-GT-6" "RMX3800" "RE5C4FL1" "CN" "0"
         ;;
 
     "22825")
         # OnePlus 12 (waffle)
-        set_oneplus_common "Oneplus 12" "PJD110" "OP5929L1" "CN" "0"
+        set_oneplus_common "Oneplus-12" "PJD110" "OP5929L1" "CN" "0"
         ;;
 
     "22861")
         # OnePlus 12 (waffle) IN/GL/NA
-        set_oneplus_common "Oneplus 12" "CPH2573" "OP595DL1" "IN" "0"
+        set_oneplus_common "Oneplus-12" "CPH2573" "OP595DL1" "IN" "0"
         ;;
 
     *)
