@@ -86,23 +86,38 @@ case "$variant" in
         set_oneplus_common "Realme GT 6" "RMX3800" "RE5C4FL1" "CN" "0"
         ;;
 
+    "22825")
+        # OnePlus 12 (waffle)
+        set_oneplus_common "Oneplus 12" "PJD110" "OP5929L1" "CN" "0"
+        ;;
+
+    "22861")
+        # OnePlus 12 (waffle) IN/GL/NA
+        set_oneplus_common "Oneplus 12" "CPH2573" "OP595DL1" "IN" "0"
+        ;;
+
     *)
         # Unknown variant
-        log "Unknown variant: $variant"
+        log "Unknown prjname: $variant"
         ;;
 esac
+
+copy_variant_vendor() {
+    local variant_name="$1"
+    cp -rf /vendor/variant/$variant_name/vendor/* /vendor
+}
 
 device="$(getprop ro.product.device)"
 
 case "$device" in
-    "OP5CFBL1")
-        # OnePlus ACE 3v (audi)
-        cp -rf /vendor/variant/audi/vendor/* /vendor
+    "OP5CFBL1" | "OP5E93L1")
+        # OnePlus ACE 3v / NORD 4 (audi)
+        copy_variant_vendor "audi"
         ;;
 
-    "OP5E93L1")
-        # OnePlus NORD 4 (audi)
-        cp -rf /vendor/variant/audi/vendor/* /vendor
+    "OP5929L1" | "OP595DL1")
+        # OnePlus 12 CN/IN/GL/NA (waffle)
+        copy_variant_vendor "waffle"
         ;;
 
     *)

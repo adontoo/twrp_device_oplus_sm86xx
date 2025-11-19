@@ -1,0 +1,469 @@
+{
+   "9999" : {
+      "def_style" : [
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_0.bin",
+            "effect_id" : 0,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_1.bin",
+            "effect_id" : 1,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_2.bin",
+            "effect_id" : 2,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_3.bin",
+            "effect_id" : 3,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_4.bin",
+            "effect_id" : 4,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_5.bin",
+            "effect_id" : 5,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_6.bin",
+            "effect_id" : 6,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_7.bin",
+            "effect_id" : 7,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_8.bin",
+            "effect_id" : 8,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_9.bin",
+            "effect_id" : 9,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_10.bin",
+            "effect_id" : 10,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_11.bin",
+            "effect_id" : 11,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_12.bin",
+            "effect_id" : 12,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_41.bin",
+            "effect_id" : 41,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_42.bin",
+            "effect_id" : 42,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_43.bin",
+            "effect_id" : 43,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_44.bin",
+            "effect_id" : 44,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_45.bin",
+            "effect_id" : 45,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_46.bin",
+            "effect_id" : 46,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_47.bin",
+            "effect_id" : 47,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_51.bin",
+            "effect_id" : 51,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_52.bin",
+            "effect_id" : 52,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_53.bin",
+            "effect_id" : 53,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_54.bin",
+            "effect_id" : 54,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_55.bin",
+            "effect_id" : 55,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_56.bin",
+            "effect_id" : 56,
+            "play_rate_hz" : 8000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_59.bin",
+            "effect_id" : 59,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_60.bin",
+            "effect_id" : 60,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_61.bin",
+            "effect_id" : 61,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_62.bin",
+            "effect_id" : 62,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_63.bin",
+            "effect_id" : 63,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_64.bin",
+            "effect_id" : 64,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_65.bin",
+            "effect_id" : 65,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_66.bin",
+            "effect_id" : 66,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_67.bin",
+            "effect_id" : 67,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_68.bin",
+            "effect_id" : 68,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_69.bin",
+            "effect_id" : 69,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_100.bin",
+            "effect_id" : 100,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_101.bin",
+            "effect_id" : 101,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_102.bin",
+            "effect_id" : 102,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_103.bin",
+            "effect_id" : 103,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_104.bin",
+            "effect_id" : 104,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_105.bin",
+            "effect_id" : 105,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_106.bin",
+            "effect_id" : 106,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_107.bin",
+            "effect_id" : 107,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_108.bin",
+            "effect_id" : 108,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_109.bin",
+            "effect_id" : 109,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_110.bin",
+            "effect_id" : 110,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_111.bin",
+            "effect_id" : 111,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_112.bin",
+            "effect_id" : 112,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_118.bin",
+            "effect_id" : 118,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_122.bin",
+            "effect_id" : 122,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_170.bin",
+            "effect_id" : 170,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_302.bin",
+            "effect_id" : 302,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_303.bin",
+            "effect_id" : 303,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_304.bin",
+            "effect_id" : 304,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_305.bin",
+            "effect_id" : 305,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_308.bin",
+            "effect_id" : 308,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_309.bin",
+            "effect_id" : 309,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_310.bin",
+            "effect_id" : 310,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_315.bin",
+            "effect_id" : 315,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_316.bin",
+            "effect_id" : 316,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_318.bin",
+            "effect_id" : 318,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_363.bin",
+            "effect_id" : 363,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_364.bin",
+            "effect_id" : 364,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_365.bin",
+            "effect_id" : 365,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_366.bin",
+            "effect_id" : 366,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_367.bin",
+            "effect_id" : 367,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_368.bin",
+            "effect_id" : 368,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_369.bin",
+            "effect_id" : 369,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/def/effect_370.bin",
+            "effect_id" : 370,
+            "play_rate_hz" : 24000
+         }
+      ],
+      "soft_style" : [
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_0.bin",
+            "effect_id" : 0,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_1.bin",
+            "effect_id" : 1,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_2.bin",
+            "effect_id" : 2,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_3.bin",
+            "effect_id" : 3,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_4.bin",
+            "effect_id" : 4,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_6.bin",
+            "effect_id" : 6,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_7.bin",
+            "effect_id" : 7,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_46.bin",
+            "effect_id" : 46,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_47.bin",
+            "effect_id" : 47,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_54.bin",
+            "effect_id" : 54,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_105.bin",
+            "effect_id" : 105,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_106.bin",
+            "effect_id" : 106,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_107.bin",
+            "effect_id" : 107,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_109.bin",
+            "effect_id" : 109,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_309.bin",
+            "effect_id" : 309,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_310.bin",
+            "effect_id" : 310,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_315.bin",
+            "effect_id" : 315,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_316.bin",
+            "effect_id" : 316,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_318.bin",
+            "effect_id" : 318,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_363.bin",
+            "effect_id" : 363,
+            "play_rate_hz" : 24000
+         },
+         {
+            "effect_file" : "/vendor/etc/vibrator/9999/soft/effect_364.bin",
+            "effect_id" : 364,
+            "play_rate_hz" : 24000
+         }
+      ]
+   },
+   "vibrator_arch" : "qcom-hv-haptic"
+}
