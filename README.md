@@ -4,7 +4,7 @@
 - OnePlus Ace 5 / 13R(CN, GL, IN)
 - OnePlus Ace 3 Pro(CN)
 - OnePlus Ace 3 V / Nord 4(CN, GL, IN)
-
+- Realme GT 6(CN)
 ## Build it yourself?
 
 ```shell
