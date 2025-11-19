@@ -1,4 +1,4 @@
-# TWRP device tree for OPLUS sm86xx sreies
+# TWRP device tree for OPLUS pineapple sreies
 
 ## Supported devices
 - OnePlus Ace 5 / 13R(CN, GL, IN)
