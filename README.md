@@ -6,6 +6,7 @@
 - OnePlus Ace 3 V / Nord 4(CN, GL, IN)
 - OnePlus 12
 - Realme GT 6(CN)
+- OPPO Find X7 Ultra / Satellite
 ## Build it yourself?
 
 ```shell

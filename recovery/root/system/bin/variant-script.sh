@@ -98,6 +98,16 @@ case "$variant" in
         set_oneplus_common "Oneplus-12" "CPH2573" "OP595DL1" "IN" "0"
         ;;
 
+    "22111")
+        # OPPO Find X7 Ultra
+        set_oneplus_common "OPPO-Find-X7-Ultra" "PHY110" "OP565FL1" "CN" "0"
+        ;;
+
+    "22112")
+        # OPPO Find X7 Ultra Satellite
+        set_oneplus_common "OPPO-Find-X7-Ultra-SL" "PHY120" "OP5660L1" "CN" "0"
+        ;;
+
     *)
         # Unknown variant
         log "Unknown prjname: $variant"
