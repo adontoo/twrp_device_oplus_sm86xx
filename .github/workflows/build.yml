@@ -11,6 +11,10 @@ on:
         description: "TWRP branch"
         required: true
         default: "twrp-16.0"
+      TWRP_BOOTABLE_RECOVERY:
+        description: "bootable_recovery"
+        required: true
+        default: "https://github.com/adontoo/android_bootable_recovery"
       DEVICE_TREE_URL:
         description: "Device tree url"
         required: true
@@ -109,6 +113,11 @@ jobs:
         TIP_PID=$!
         repo sync
         kill $TIP_PID && exit 0
+
+    - name: Setup bootable_recovery
+      run: |
+        rm -rf bootable/recovery
+        git clone ${{ github.event.inputs.TWRP_BOOTABLE_RECOVERY }} bootable/recovery
 
     - name: Setup device
       run: |
