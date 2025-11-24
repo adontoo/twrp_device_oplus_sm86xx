@@ -1,0 +1,178 @@
+on property:twrp.modules.loaded=true
+    ######## Add by jason
+    # WiFi early-init 阶段 加载内核模块
+    # 使用 write 命令直接写入 /dev/kmsg，避免 SELinux 问题
+    write /dev/kmsg "[jasonwifi][early-init] WiFi early-init started"
+    write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
+    write /dev/kmsg "[jasonwifi][early-init] Starting modules load..."
+    start cp-wifi-ko
+
+on property:twrp.cpko=true
+    wait /odm/wifi/modules/cnss_prealloc.ko
+    insmod /odm/wifi/modules/cnss_prealloc.ko
+    wait /odm/wifi/modules/cnss_nl.ko
+    insmod /odm/wifi/modules/cnss_nl.ko
+    wait /odm/wifi/modules/wlan_firmware_service.ko
+    insmod /odm/wifi/modules/wlan_firmware_service.ko
+    wait /odm/wifi/modules/cnss_plat_ipc_qmi_svc.ko
+    insmod /odm/wifi/modules/cnss_plat_ipc_qmi_svc.ko
+    # insmod /vendor/lib/modules/smem-mailbox.ko
+    wait /odm/wifi/modules/cnss_utils.ko
+    insmod /odm/wifi/modules/cnss_utils.ko
+    wait /odm/wifi/modules/cnss2.ko
+    insmod /odm/wifi/modules/cnss2.ko
+    wait /odm/wifi/modules/gsim.ko
+    insmod /odm/wifi/modules/gsim.ko
+    wait /odm/wifi/modules/rmnet_mem.ko
+    insmod /odm/wifi/modules/rmnet_mem.ko
+    wait /odm/wifi/modules/ipam.ko
+    insmod /odm/wifi/modules/ipam.ko
+    wait /odm/wifi/modules/rfkill.ko
+    insmod /odm/wifi/modules/rfkill.ko
+    wait /odm/wifi/modules/cfg80211.ko
+    insmod /odm/wifi/modules/cfg80211.ko
+    write /dev/kmsg "[jasonwifi][early-init] WiFi early-init modules loaded successfully!"
+    setprop twrp.insmodko 1
+    ######## Add End
+
+on init
+    ######## Add by jason
+    # 准备firmware目录和ini配置
+    write /dev/kmsg "[jasonwifi][prepare-files] WiFi prepare started"
+    # wpa_supplicant配置目录
+    mkdir /data/misc 0777 root shell
+    mkdir /data/misc/wifi 0777 root shell
+    write /dev/kmsg "[jasonwifi][prepare-files] Directories created"
+    write /dev/kmsg "[jasonwifi][prepare-files] WiFi prepare successfully!"
+    ######## Add End
+
+on boot
+    ######## Add by jason
+    # WiFi boot
+    write /dev/kmsg "[jasonwifi][boot] Setting Wlan boot env..."
+    # 启用 WLAN SSR recovery
+    write /sys/kernel/cnss/recovery 3
+    chown radio wakelock /sys/power/wake_lock
+    chown radio wakelock /sys/power/wake_unlock
+    chmod 0660 /sys/power/wake_lock
+    chmod 0660 /sys/power/wake_unlock
+    write /dev/kmsg "[jasonwifi][boot] Wlan boot env set done!"
+    ######## Add End
+
+######## Add by jason
+
+# WiFi相关服务
+service vendor.qrtr-ns /vendor/bin/qrtr-ns -f
+    disabled
+    user root
+    group root
+    capabilities NET_BIND_SERVICE
+    seclabel u:r:recovery:s0
+
+service vendor.rmt_storage /vendor/bin/rmt_storage
+    disabled
+    user root
+    ioprio rt 0
+    seclabel u:r:recovery:s0
+
+service vendor.tftp_server /vendor/bin/tftp_server
+    disabled
+    user root
+    seclabel u:r:recovery:s0
+    disabled
+
+service vendor.per_mgr /vendor/bin/pm-service
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service vendor.pd_mapper /vendor/bin/pd-mapper
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service vendor.per_proxy /vendor/bin/pm-proxy
+    disabled
+    user root
+    group root
+    seclabel u:r:recovery:s0
+
+service cnss-daemon /vendor/bin/cnss-daemon -n -l
+    disabled
+    user root
+    group root system inet net_admin wifi
+    capabilities NET_ADMIN
+    seclabel u:r:recovery:s0
+
+service wpa_supplicant /vendor/bin/hw/wpa_supplicant -Dnl80211 -iwlan0 -dd -O/tmp/recovery/sockets -c/vendor/etc/wifi/wpa_supplicant.conf
+    disabled
+    seclabel u:r:recovery:s0
+
+service dhcpcd /system/bin/dhcpcd wlan0 -B
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service cp-wifi-ko /system/bin/cp-wifi-ko.sh
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+# WiFi服务启动触发器，ADB中使用 setprop survival.start.service true 触发
+on property:survival.start.service=true
+    write /dev/kmsg "[jasonwifi][service] Starting Qualcomm services"
+    start vendor.pd_mapper
+    write /dev/kmsg "[jasonwifi][service] vendor.pd_mapper started"
+    start vendor.per_proxy
+    write /dev/kmsg "[jasonwifi][service] vendor.per_proxy started"
+    start vendor.per_mgr
+    write /dev/kmsg "[jasonwifi][service] vendor.per_mgr started"
+    start vendor.qrtr-ns
+    write /dev/kmsg "[jasonwifi][service] vendor.qrtr-ns started"
+    start vendor.rmt_storage
+    write /dev/kmsg "[jasonwifi][service] vendor.rmt_storage started"
+    start vendor.tftp_server
+    write /dev/kmsg "[jasonwifi][service] vendor.tftp_server started"
+    write /dev/kmsg "[jasonwifi][service] Qualcomm services started successfuly!"
+
+# WiFi驱动加载触发器，ADB中使用 setprop qcomwlan.driver.load true 触发
+on property:qcomwlan.driver.load=true
+    write /dev/kmsg "[jasonwifi][driver] Starting load WiFi driver modules..."
+    write /sys/devices/platform/soc/b0000000.qcom,cnss-kiwi/fs_ready 1
+    exec - root root -- /sbin/sh -c "/system/bin/cpko.sh"
+    wait /odm/wifi/modules/qca_cld3_kiwi_v2.ko
+    insmod /odm/wifi/modules/qca_cld3_kiwi_v2.ko
+    write /dev/kmsg "[jasonwifi][driver] qca_cld3_kiwi_v2.ko loaded"
+    write /dev/kmsg "[jasonwifi][driver] WiFi driver loaded successfully!"
+    write /dev/kmsg "[jasonwifi][interface] Waiting for wlan0 create..."
+    wait /sys/class/net/wlan0 10
+    write /dev/kmsg "[jasonwifi][interface] Interface wlan0 found"
+
+    # 设置属性，触发 wpa_supplicant 启动
+    write /dev/kmsg "[jasonwifi][driver] Setting property to start wpa_supplicant..."
+    setprop jasonwifi.driver.ready true
+
+on property:twrp.insmodko=1
+    setprop survival.start.service true
+    setprop qcomwlan.driver.load true
+
+# WiFi 接口激活触发器，驱动加载完成后启动 wpa_supplicant
+on property:jasonwifi.driver.ready=true
+    # 创建 wpa_supplicant sockets 目录并设置权限
+    mkdir /tmp/recovery 0777 root root
+    mkdir /tmp/recovery/sockets 0777 root root
+    write /dev/kmsg "[jasonwifi][post-fs-data] wpa_supplicant sockets dir created with root:root"
+    start wpa_supplicant
+    write /dev/kmsg "[jasonwifi][interface] wpa_supplicant started"
+
+on property:supplicant.status=running
+    start wpa_supplicant
+    write /dev/kmsg "[jasonwifi][wpa_supplicant] wpa_supplicant service started"
+
+on property:supplicant.status=stopped
+    stop wpa_supplicant
+    write /dev/kmsg "[jasonwifi][wpa_supplicant] wpa_supplicant stopped"
+
+######## Add End

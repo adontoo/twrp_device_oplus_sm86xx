@@ -62,17 +62,11 @@
 #Import rc file
 import /vendor/etc/ueventd.qcom.userdebug.rc
 
-
+#### Add by jason
 # Firmware directory Path
 # Below macro will be read by uevent and path will
 # be added to search path for firmware loading
-# ifndef OPLUS_FEATURE_WIFI_BDF
-# fangzhijun@CONNECTIVITY.WIFI.HARDWARE.BDF.5719240 , 2023/06/13,
-# Modify for: multi projects using different bdf, adding persist into firmware_directories
-# firmware_directories /vendor/firmware_mnt/image/
-# else /* OPLUS_FEATURE_WIFI_BDF */
-firmware_directories /mnt/vendor/persist/copy/ /odm/etc/wifi/ /mnt/vendor/persist/ /vendor/firmware_mnt/image/
-# endif /* OPLUS_FEATURE_WIFI_BDF */
+firmware_directories /mnt/vendor/persist/ /vendor/etc/wifi/ /vendor/firmware_mnt/image/
 
 subsystem dma_heap
     devname uevent_devpath
