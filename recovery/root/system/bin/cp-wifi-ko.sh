@@ -1,4 +1,12 @@
 #!/system/bin/sh
+
+# Do not copy in fastbootd mode
+FASTBOOTD_PROP=$(getprop ro.twrp.fastbootd)
+if [ "$FASTBOOTD_PROP" = "1" ]; then
+    echo "I:cp-wifi-ko.sh: Detected fastbootd (ro.twrp.fastbootd=1), exit script." >> /tmp/recovery.log
+    exit 0
+fi
+
 mount /vendor_dlkm
 mount /system_dlkm
 
