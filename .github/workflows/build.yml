@@ -14,7 +14,7 @@ on:
       TWRP_BOOTABLE_RECOVERY:
         description: "bootable_recovery"
         required: true
-        default: "https://github.com/adontoo/android_bootable_recovery"
+        default: "https://github.com/TWRP-Test/android_bootable_recovery"
       DEVICE_TREE_URL:
         description: "Device tree url"
         required: true

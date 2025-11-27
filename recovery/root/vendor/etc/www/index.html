@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>TWRP Web File Manager</title>
+<style>
+:root {
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --header-bg: #fff;
+  --header-border: #ddd;
+  --section-bg: #fff;
+  --section-border: #ddd;
+  --table-border: #e0e0e0;
+  --th-bg: #f8f9fa;
+  --tr-hover-bg: #f8f9fa;
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --button-bg: #007bff;
+  --button-hover-bg: #0056b3;
+  --button-disabled-bg: #6c757d;
+  --progress-bg: #e9ecef;
+  --warning-color: #dc3545;
+  --notice-bg: #fff3cd;
+  --notice-color: #856404;
+  --notice-border: #ffeaa7;
+  --link-color: #007bff;
+  --small-color: #666;
+  --shadow-color: rgba(0,0,0,0.1);
+}
+
+.dark-theme {
+  --bg-color: #111;
+  --text-color: #eee;
+  --header-bg: #222;
+  --header-border: #333;
+  --section-bg: #1e1e1e;
+  --section-border: #333;
+  --table-border: #333;
+  --th-bg: #2a2a2a;
+  --tr-hover-bg: #2a2a2a;
+  --input-bg: #222;
+  --input-border: #555;
+  --button-bg: #444;
+  --button-hover-bg: #555;
+  --button-disabled-bg: #333;
+  --progress-bg: #222;
+  --warning-color: #ff6b6b;
+  --notice-bg: #ffeb3b;
+  --notice-color: #333;
+  --notice-border: #ffeb3b;
+  --link-color: #eee;
+  --small-color: #888;
+  --shadow-color: rgba(0,0,0,0.3);
+}
+
+body {
+  font-family: sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+header {
+  background: var(--header-bg);
+  padding: 10px 20px;
+  font-size: 18px;
+  border-bottom: 1px solid var(--header-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.header-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+.theme-toggle, .language-toggle {
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s;
+}
+.theme-toggle:hover, .language-toggle:hover {
+  background: var(--button-hover-bg);
+}
+.current-path {
+  margin-left: 5px;
+  font-weight: normal;
+  color: var(--text-color);
+}
+main {
+  padding: 10px 20px 40px 20px;
+}
+section {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: var(--section-bg);
+  border-radius: 6px;
+  border: 1px solid var(--section-border);
+  box-shadow: 0 1px 3px var(--shadow-color);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+h2 {
+  margin-top: 0;
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+th, td {
+  border-bottom: 1px solid var(--table-border);
+  padding: 4px 6px;
+  text-align: left;
+  transition: border-color 0.3s;
+}
+th {
+  background: var(--th-bg);
+  color: var(--text-color);
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
+}
+tr:hover {
+  background: var(--tr-hover-bg);
+  transition: background-color 0.3s;
+}
+input, button, select, textarea {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 13px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+input[type="text"] {
+  width: 280px;
+}
+textarea {
+  width: 100%;
+  height: 180px;
+}
+label {
+  margin-right: 8px;
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+.small {
+  font-size: 12px;
+  color: var(--small-color);
+  transition: color 0.3s;
+}
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: var(--progress-bg);
+  border-radius: 10px;
+  margin: 5px 0;
+  overflow: hidden;
+  transition: background-color 0.3s;
+}
+.progress-fill {
+  height: 100%;
+  background: #28a745;
+  width: 0%;
+  transition: width 0.3s;
+}
+.upload-status {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.space-warning {
+  color: var(--warning-color);
+  font-weight: bold;
+  transition: color 0.3s;
+}
+.upload-notice {
+  background: var(--notice-bg);
+  color: var(--notice-color);
+  padding: 8px;
+  border-radius: 4px;
+  margin: 10px 0;
+  display: none;
+  border: 1px solid var(--notice-border);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.dir-link.disabled {
+  color: var(--small-color);
+  pointer-events: none;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+.file-link.disabled {
+  color: var(--small-color);
+  pointer-events: none;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+.file-row.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.file-row.disabled:hover {
+  background: inherit !important;
+}
+#cancel-btn {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+.upload-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 6px;
+}
+.upload-controls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+#cancel-btn {
+  background: var(--warning-color);
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#cancel-btn:hover {
+  background: #c82333;
+}
+.path-upload-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 6px 0;
+}
+.path-form, .upload-form {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.upload-info {
+  font-size: 12px;
+  color: var(--small-color);
+  margin-left: 10px;
+  transition: color 0.3s;
+}
+.upload-section {
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--th-bg);
+  border-radius: 4px;
+  border: 1px solid var(--table-border);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* 目录链接样式 */
+.dir-link, .dir-link:link, .dir-link:visited, .dir-link:hover, .dir-link:active, .dir-link:focus {
+  color: var(--link-color) !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.dir-link:hover {
+  text-decoration: underline;
+}
+
+/* 文件链接样式 */
+.file-link, .file-link:link, .file-link:visited, .file-link:hover, .file-link:active, .file-link:focus {
+  color: var(--link-color) !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.file-link:hover {
+  text-decoration: underline;
+}
+
+/* 按钮样式优化 */
+button:not(.theme-toggle):not(.language-toggle) {
+  background: var(--button-bg);
+  color: white;
+  border: 1px solid var(--button-bg);
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s;
+}
+button:not(.theme-toggle):not(.language-toggle):hover {
+  background: var(--button-hover-bg);
+  border-color: var(--button-hover-bg);
+}
+button:not(.theme-toggle):not(.language-toggle):disabled {
+  background: var(--button-disabled-bg);
+  border-color: var(--button-disabled-bg);
+  cursor: not-allowed;
+}
+
+/* 输入框焦点样式 */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* 右键菜单样式 */
+.context-menu {
+  position: fixed;
+  background: var(--section-bg);
+  border: 1px solid var(--section-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  z-index: 1000;
+  min-width: 120px;
+  display: none;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+.context-menu li:hover {
+  background: var(--button-bg);
+  color: white;
+}
+
+.context-menu li.disabled {
+  color: var(--small-color);
+  cursor: not-allowed;
+}
+
+.context-menu li.disabled:hover {
+  background: inherit;
+  color: var(--small-color);
+}
+
+/* 模态对话框样式 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--section-bg);
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--section-border);
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.modal-header {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--section-border);
+  padding-bottom: 10px;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* 文件表格行右键支持 */
+.file-row {
+  cursor: context-menu;
+}
+
+.file-row.context-menu-active {
+  background: var(--button-bg) !important;
+  color: white;
+}
+</style>
+</head>
+<body>
+<header>
+    <div class="header-title">
+        <span data-i18n="app_title">TWRP Web File Manager</span>
+        <span> — </span>
+        <span data-i18n="current_path">当前路径：</span>
+        <span id="cur-path" class="current-path">{{CURRENT_PATH}}</span>
+    </div>
+    <div class="header-buttons">
+        <button class="language-toggle" id="language-toggle" data-i18n="language_toggle">English</button>
+        <button class="theme-toggle" id="theme-toggle" data-i18n="theme_toggle">切换到暗色主题</button>
+    </div>
+</header>
+
+<!-- 上传状态提示 -->
+<div id="upload-notice" class="upload-notice" style="display: none;" data-i18n="upload_notice">
+    文件上传中，右键菜单已被禁用，请勿刷新页面！
+</div>
+
+<main>
+
+<section>
+    <h2 data-i18n="browse_title">目录浏览</h2>    
+    
+    <div class="path-upload-container">
+        <div class="path-form">
+            <label data-i18n="switch_path">切换路径:</label>
+            <input type="text" name="path" id="path-input" value="{{CURRENT_PATH}}">
+            <button type="button" id="path-submit-btn" data-i18n="open_button">打开</button>
+            <span id="path-status" class="small"></span>
+        </div>
+    </div>
+    
+    <!-- 上传文件部分 -->
+    <div class="path-upload-container">
+        <div class="upload-form">
+            <label data-i18n="upload_file">上传文件:</label>
+            <input type="file" id="file-input">
+            <button id="upload-btn" data-i18n="start_upload">开始上传</button>
+            <button id="cancel-btn" style="display: none;" data-i18n="cancel_upload">取消上传</button>
+        </div>
+        
+        <div class="upload-info">
+            <span id="space-status" data-i18n="target_path">目标路径为上方的切换路径</span>
+        </div>
+    </div>
+    
+    <div class="small" data-i18n="edge_warning">
+        请勿使用Microsoft Edge浏览器进行大型文件上传，会直接失败！
+    </div>
+    <div class="small" data-i18n="right_click_hint">
+        右键单击(长按)文件/文件夹，会有操作菜单出现。
+    </div>
+
+    <div class="upload-section" id="upload-section" style="display: none;">
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div id="upload-status" class="small"></div>
+        <div id="upload-details" class="upload-status"></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th data-i18n="table_type">类型</th>
+                <th data-i18n="table_name">名称</th>
+                <th data-i18n="table_size">大小</th>
+                <th data-i18n="table_permission">权限</th>
+                <th data-i18n="table_owner">所有者</th>
+                <th data-i18n="table_group">用户组</th>
+            </tr>
+        </thead>
+        <tbody id="file-table-body">
+            {{FILE_TABLE}}
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2 data-i18n="terminal_title">执行终端命令</h2>
+    <div class="small" data-i18n="terminal_warning">
+        命令将在 recovery 环境下以 root 身份执行。务必确认你在做什么。
+    </div>
+    <div style="margin-top:6px;">
+        <input type="text" id="cmd-input" placeholder="例如: ls -l /" data-i18n-placeholder="cmd_placeholder">
+        <button id="cmd-run" data-i18n="execute_button">执行</button>
+    </div>
+    <div style="margin-top:6px;">
+        <textarea id="cmd-output" readonly></textarea>
+    </div>
+</section>
+
+<!-- 右键菜单 -->
+<div id="context-menu" class="context-menu">
+    <ul>
+        <li id="menu-download" data-i18n="menu_download">下载</li>
+        <li id="menu-rename" data-i18n="menu_rename">重命名</li>
+        <li id="menu-delete" data-i18n="menu_delete">删除</li>
+    </ul>
+</div>
+
+<!-- 重命名模态框 -->
+<div id="rename-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" data-i18n="rename_title">重命名文件/目录</div>
+        <div class="modal-body">
+            <div id="rename-current-name" class="small"></div>
+            <input type="text" id="rename-new-name" class="modal-input" data-i18n-placeholder="rename_placeholder">
+        </div>
+        <div class="modal-footer">
+            <button id="rename-cancel" data-i18n="cancel_button">取消</button>
+            <button id="rename-confirm" data-i18n="confirm_button">确认</button>
+        </div>
+    </div>
+</div>
+
+<!-- 删除确认模态框 -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" data-i18n="delete_title">确认删除</div>
+        <div class="modal-body">
+            <div id="delete-confirm-text"></div>
+            <div class="small" style="margin-top: 10px; color: var(--warning-color);" data-i18n="delete_warning">
+                警告：此操作不可撤销！
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="delete-cancel" data-i18n="cancel_button">取消</button>
+            <button id="delete-confirm" style="background: var(--warning-color);" data-i18n="confirm_delete">确认删除</button>
+        </div>
+    </div>
+</div>
+
+</main>
+
+<script>
+let currentXhr = null;
+let isUploading = false;
+let contextMenu = document.getElementById('context-menu');
+let currentLanguage = 'zh'; // 默认语言为中文
+
+// 语言包定义
+const translations = {
+    zh: {
+        'app_title': 'TWRP Web File Manager',
+        'current_path': '当前路径：',
+        'language_toggle': 'English',
+        'theme_toggle': '切换到暗色主题',
+        'upload_notice': '文件上传中，右键菜单已被禁用，请勿刷新页面！',
+        'browse_title': '目录浏览',
+        'switch_path': '切换路径:',
+        'open_button': '打开',
+        'upload_file': '上传文件:',
+        'start_upload': '开始上传',
+        'cancel_upload': '取消上传',
+        'target_path': '目标路径为上方的切换路径',
+        'edge_warning': '请勿使用Microsoft Edge浏览器进行大型文件上传，会直接失败！',
+        'right_click_hint': '右键单击(长按)文件/文件夹，会有操作菜单出现。',
+        'table_type': '类型',
+        'table_name': '名称',
+        'table_size': '大小',
+        'table_permission': '权限',
+        'table_owner': '所有者',
+        'table_group': '用户组',
+        'terminal_title': '执行终端命令',
+        'terminal_warning': '命令将在 recovery 环境下以 root 身份执行。务必确认你在做什么。',
+        'cmd_placeholder': '例如: ls -l /',
+        'execute_button': '执行',
+        'menu_download': '下载',
+        'menu_rename': '重命名',
+        'menu_delete': '删除',
+        'rename_title': '重命名文件/目录',
+        'rename_placeholder': '输入新名称',
+        'cancel_button': '取消',
+        'confirm_button': '确认',
+        'delete_title': '确认删除',
+        'delete_warning': '警告：此操作不可撤销！',
+        'confirm_delete': '确认删除',
+        'path_checking': '检查路径中...',
+        'path_valid': '路径有效',
+        'path_invalid': '路径无效',
+        'space_checking': '检查空间中...',
+        'space_enough': '空间足够',
+        'space_insufficient': '空间不足',
+        'upload_preparing': '准备上传...',
+        'upload_uploading': '上传中',
+        'upload_complete': '上传完成',
+        'upload_failed': '上传失败',
+        'upload_cancelled': '上传已取消',
+        'select_file': '请选择要上传的文件',
+        'enter_command': '请输入命令',
+        'request_failed': '请求失败'
+    },
+    en: {
+        'app_title': 'TWRP Web File Manager',
+        'current_path': 'Current Path: ',
+        'language_toggle': '中文',
+        'theme_toggle': 'Switch to Dark Theme',
+        'upload_notice': 'File upload in progress, right-click menu is disabled. Please do not refresh the page!',
+        'browse_title': 'Directory Browser',
+        'switch_path': 'Switch Path:',
+        'open_button': 'Open',
+        'upload_file': 'Upload File:',
+        'start_upload': 'Start Upload',
+        'cancel_upload': 'Cancel Upload',
+        'target_path': 'Target path is the switch path above',
+        'edge_warning': 'Do not use Microsoft Edge browser for large file uploads, it will fail directly!',
+        'right_click_hint': 'Right-click (long press) on files/folders to see the operation menu.',
+        'table_type': 'Type',
+        'table_name': 'Name',
+        'table_size': 'Size',
+        'table_permission': 'Permission',
+        'table_owner': 'Owner',
+        'table_group': 'Group',
+        'terminal_title': 'Execute Terminal Commands',
+        'terminal_warning': 'Commands will be executed as root in the recovery environment. Make sure you know what you are doing.',
+        'cmd_placeholder': 'e.g., ls -l /',
+        'execute_button': 'Execute',
+        'menu_download': 'Download',
+        'menu_rename': 'Rename',
+        'menu_delete': 'Delete',
+        'rename_title': 'Rename File/Directory',
+        'rename_placeholder': 'Enter new name',
+        'cancel_button': 'Cancel',
+        'confirm_button': 'Confirm',
+        'delete_title': 'Confirm Delete',
+        'delete_warning': 'Warning: This operation cannot be undone!',
+        'confirm_delete': 'Confirm Delete',
+        'path_checking': 'Checking path...',
+        'path_valid': 'Path valid',
+        'path_invalid': 'Path invalid',
+        'space_checking': 'Checking space...',
+        'space_enough': 'Space sufficient',
+        'space_insufficient': 'Insufficient space',
+        'upload_preparing': 'Preparing upload...',
+        'upload_uploading': 'Uploading',
+        'upload_complete': 'Upload complete',
+        'upload_failed': 'Upload failed',
+        'upload_cancelled': 'Upload cancelled',
+        'select_file': 'Please select a file to upload',
+        'enter_command': 'Please enter a command',
+        'request_failed': 'Request failed'
+    }
+};
+
+// 检测浏览器语言
+function detectBrowserLanguage() {
+    const browserLang = navigator.language || navigator.userLanguage;
+    // 如果浏览器语言不是中文，则使用英文
+    if (!browserLang.startsWith('zh')) {
+        return 'en';
+    }
+    return 'zh';
+}
+
+// 翻译页面内容
+function translatePage(lang) {
+    currentLanguage = lang;
+    
+    // 翻译所有带有 data-i18n 属性的元素
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    
+    // 翻译所有带有 data-i18n-placeholder 属性的元素
+    const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+    placeholderElements.forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (translations[lang] && translations[lang][key]) {
+            element.placeholder = translations[lang][key];
+        }
+    });
+    
+    // 更新页面语言属性
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    
+    // 更新语言切换按钮文本
+    const languageToggle = document.getElementById('language-toggle');
+    if (languageToggle) {
+        languageToggle.textContent = lang === 'zh' ? 'English' : '中文';
+    }
+    
+    // 更新主题切换按钮文本
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        if (document.body.classList.contains('dark-theme')) {
+            themeToggle.textContent = lang === 'zh' ? '切换到明亮主题' : 'Switch to Light Theme';
+        } else {
+            themeToggle.textContent = translations[lang]['theme_toggle'];
+        }
+    }
+    
+    // 保存语言设置到localStorage
+    localStorage.setItem('language', lang);
+}
+
+// 获取翻译文本
+function getTranslation(key) {
+    return translations[currentLanguage] && translations[currentLanguage][key] 
+        ? translations[currentLanguage][key] 
+        : key;
+}
+
+// 修复：使用状态对象来保存右键菜单的选中状态
+let contextMenuState = {
+    item: null,
+    type: '',
+    name: '',
+    path: ''
+};
+
+// 从URL参数获取当前路径
+function getCurrentPathFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pathParam = urlParams.get('path');
+    return pathParam || '/';
+}
+
+// 更新当前路径显示的函数
+function updateCurrentPathDisplay() {
+    const currentPath = getCurrentPathFromURL();
+    
+    // 更新顶部当前路径显示
+    const curPathElement = document.getElementById('cur-path');
+    if (curPathElement && curPathElement.textContent === '{{CURRENT_PATH}}') {
+        curPathElement.textContent = currentPath;
+    }
+    
+    // 更新路径输入框的值
+    const pathInput = document.getElementById('path-input');
+    if (pathInput && pathInput.value === '{{CURRENT_PATH}}') {
+        pathInput.value = currentPath;
+    }
+}
+
+// 获取当前路径的函数
+function getCurrentPath() {
+    const pathInput = document.getElementById('path-input');
+    return pathInput ? pathInput.value || '/' : '/';
+}
+
+// 语言切换功能
+document.getElementById('language-toggle').addEventListener('click', function() {
+    const newLang = currentLanguage === 'zh' ? 'en' : 'zh';
+    translatePage(newLang);
+});
+
+// 主题切换功能
+document.getElementById('theme-toggle').addEventListener('click', function() {
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (body.classList.contains('dark-theme')) {
+        body.classList.remove('dark-theme');
+        themeToggle.textContent = getTranslation('theme_toggle');
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.classList.add('dark-theme');
+        themeToggle.textContent = currentLanguage === 'zh' ? '切换到明亮主题' : 'Switch to Light Theme';
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 从localStorage读取保存的语言设置
+    const savedLang = localStorage.getItem('language');
+    const detectedLang = savedLang || detectBrowserLanguage();
+    translatePage(detectedLang);
+    
+    // 检查保存的主题偏好
+    const savedTheme = localStorage.getItem('theme');
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggle.textContent = currentLanguage === 'zh' ? '切换到明亮主题' : 'Switch to Light Theme';
+    } else {
+        document.body.classList.remove('dark-theme');
+        themeToggle.textContent = getTranslation('theme_toggle');
+    }
+    
+    // 更新当前路径显示
+    updateCurrentPathDisplay();
+    
+    // 确保所有目录链接都有正确的类名
+    const dirLinks = document.querySelectorAll('a[href*="path="]');
+    dirLinks.forEach(link => {
+        if (!link.classList.contains('dir-link')) {
+            link.classList.add('dir-link');
+        }
+        
+        // 为目录链接添加点击事件，更新当前路径显示
+        link.addEventListener('click', function(e) {
+            if (isUploading) {
+                e.preventDefault();
+                alert(currentLanguage === 'zh' ? '文件上传中，请勿操作目录！' : 'File upload in progress, please do not operate directories!');
+                return;
+            }
+            
+            // 从链接中提取路径
+            const href = this.getAttribute('href');
+            const pathMatch = href.match(/path=([^&]*)/);
+            if (pathMatch) {
+                const newPath = decodeURIComponent(pathMatch[1]);
+                // 更新当前路径显示
+                const pathInput = document.getElementById('path-input');
+                const curPathElement = document.getElementById('cur-path');
+                
+                if (pathInput) pathInput.value = newPath;
+                if (curPathElement) curPathElement.textContent = newPath;
+            }
+        });
+    });
+    
+    // 为文件链接添加类名
+    const fileLinks = document.querySelectorAll('a[href*="/download"]');
+    fileLinks.forEach(link => {
+        if (!link.classList.contains('file-link')) {
+            link.classList.add('file-link');
+        }
+    });
+    
+    // 为路径输入框添加回车键监听
+    document.getElementById('path-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('path-submit-btn').click();
+        }
+    });
+    
+    // 为命令输入框添加回车键监听
+    document.getElementById('cmd-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('cmd-run').click();
+        }
+    });
+    
+    // 初始化右键菜单功能
+    initContextMenu();
+});
+
+// 检查路径有效性
+async function checkPath(path) {
+    const pathStatus = document.getElementById('path-status');
+    
+    if (!path || path.trim() === '') {
+        pathStatus.textContent = currentLanguage === 'zh' ? '请输入路径' : 'Please enter a path';
+        pathStatus.className = 'small space-warning';
+        return false;
+    }
+    
+    pathStatus.textContent = getTranslation('path_checking');
+    pathStatus.className = 'small';
+    
+    try {
+        const response = await fetch(`/check_path?path=${encodeURIComponent(path)}`);
+        if (response.status === 200) {
+            pathStatus.textContent = getTranslation('path_valid');
+            pathStatus.className = 'small';
+            return true;
+        } else {
+            const errorMsg = await response.text();
+            pathStatus.textContent = getTranslation('path_invalid') + ': ' + errorMsg;
+            pathStatus.className = 'small space-warning';
+            return false;
+        }
+    } catch (e) {
+        pathStatus.textContent = getTranslation('path_invalid') + ': ' + e;
+        pathStatus.className = 'small space-warning';
+        return false;
+    }
+}
+
+// 设置上传状态
+function setUploadState(uploading) {
+    isUploading = uploading;
+    const dirLinks = document.querySelectorAll('.dir-link');
+    const fileLinks = document.querySelectorAll('.file-link');
+    const fileRows = document.querySelectorAll('.file-row');
+    const pathSubmitBtn = document.getElementById('path-submit-btn');
+    const uploadNotice = document.getElementById('upload-notice');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const uploadBtn = document.getElementById('upload-btn');
+    const uploadSection = document.getElementById('upload-section');
+    
+    if (uploading) {
+        // 禁用目录链接、文件链接、文件行和路径提交，但保持取消按钮可点击
+        dirLinks.forEach(link => {
+            link.classList.add('disabled');
+        });
+        fileLinks.forEach(link => {
+            link.classList.add('disabled');
+        });
+        fileRows.forEach(row => {
+            row.classList.add('disabled');
+        });
+        pathSubmitBtn.disabled = true;
+        uploadNotice.style.display = 'block';
+        cancelBtn.style.display = 'inline-block';
+        uploadBtn.disabled = true;
+        uploadSection.style.display = 'block';
+    } else {
+        // 启用目录链接、文件链接、文件行和路径提交
+        dirLinks.forEach(link => {
+            link.classList.remove('disabled');
+        });
+        fileLinks.forEach(link => {
+            link.classList.remove('disabled');
+        });
+        fileRows.forEach(row => {
+            row.classList.remove('disabled');
+        });
+        pathSubmitBtn.disabled = false;
+        uploadNotice.style.display = 'none';
+        cancelBtn.style.display = 'none';
+        uploadBtn.disabled = false;
+        if (!isUploading) {
+            uploadSection.style.display = 'none';
+        }
+    }
+}
+
+// 为上传控制区域中的取消按钮添加事件
+document.getElementById('cancel-btn').addEventListener('click', function() {
+    cancelUpload();
+});
+
+// 路径切换功能 - 修改为先检查路径有效性
+document.getElementById('path-submit-btn').addEventListener('click', async function() {
+    const pathInput = document.getElementById('path-input').value;
+    const pathStatus = document.getElementById('path-status');
+    
+    // 先检查路径有效性
+    const isValid = await checkPath(pathInput);
+    
+    if (isValid) {
+        // 路径有效，执行跳转
+        window.location.href = '/?path=' + encodeURIComponent(pathInput);
+    } else {
+        // 路径无效，不清除状态信息，让用户看到错误信息
+        console.log('路径无效，不执行跳转');
+    }
+});
+
+// 取消上传功能
+function cancelUpload() {
+    if (currentXhr) {
+        currentXhr.abort();
+        
+        // 发送取消请求到服务器
+        fetch('/cancel_upload')
+            .then(response => response.text())
+            .then(result => {
+                console.log('取消上传:', result);
+            })
+            .catch(error => {
+                console.error('取消请求失败:', error);
+            });
+        
+        setUploadState(false);
+        document.getElementById('upload-status').textContent = getTranslation('upload_cancelled');
+        document.getElementById('upload-section').style.display = 'none';
+        const uploadDetails = document.getElementById('upload-details');
+        if (uploadDetails.textContent) {
+            uploadDetails.textContent += ' - ' + (currentLanguage === 'zh' ? '已取消' : 'Cancelled');
+        }
+    }
+}
+
+// 文件选择时自动检查空间
+document.getElementById('file-input').addEventListener('change', async function() {
+    const spaceStatus = document.getElementById('space-status');
+    const fileInput = document.getElementById('file-input');
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        spaceStatus.textContent = getTranslation('select_file');
+        spaceStatus.className = 'small';
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    // 使用当前路径作为上传目录
+    const currentPath = getCurrentPath();
+    
+    spaceStatus.textContent = getTranslation('space_checking');
+    spaceStatus.className = 'small';
+    
+    try {
+        const response = await fetch(`/check_space?dir=${encodeURIComponent(currentPath)}&size=${file.size}`);
+        const result = await response.text();
+        
+        if (response.status === 200) {
+            spaceStatus.textContent = getTranslation('space_enough') + ` (${formatFileSize(file.size)}) - ` + (currentLanguage === 'zh' ? '可上传到: ' : 'Can upload to: ') + currentPath;
+            spaceStatus.className = 'small';
+        } else {
+            spaceStatus.textContent = getTranslation('space_insufficient') + ': ' + result;
+            spaceStatus.className = 'small space-warning';
+        }
+    } catch (e) {
+        spaceStatus.textContent = getTranslation('space_insufficient') + ': ' + e;
+        spaceStatus.className = 'small space-warning';
+    }
+});
+
+// 上传功能
+document.getElementById('upload-btn').addEventListener('click', async function() {
+    if (isUploading) {
+        return;
+    }
+    
+    const fileInput = document.getElementById('file-input');
+    // 使用当前路径作为上传目录
+    const currentPath = getCurrentPath();
+    const statusSpan = document.getElementById('upload-status');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    const uploadDetails = document.getElementById('upload-details');
+    const spaceStatus = document.getElementById('space-status');
+    const uploadSection = document.getElementById('upload-section');
+    
+    statusSpan.textContent = '';
+    uploadDetails.textContent = '';
+    uploadSection.style.display = 'block';
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+        statusSpan.textContent = getTranslation('select_file');
+        return;
+    }
+    const file = fileInput.files[0];
+
+    // 先检查空间
+    try {
+        const checkResponse = await fetch(`/check_space?dir=${encodeURIComponent(currentPath)}&size=${file.size}`);
+        if (checkResponse.status !== 200) {
+            const errorMsg = await checkResponse.text();
+            statusSpan.textContent = (currentLanguage === 'zh' ? '空间不足，上传被阻止: ' : 'Insufficient space, upload blocked: ') + errorMsg;
+            spaceStatus.textContent = getTranslation('space_insufficient');
+            spaceStatus.className = 'small space-warning';
+            return;
+        }
+    } catch (e) {
+        statusSpan.textContent = getTranslation('space_insufficient') + ': ' + e;
+        return;
+    }
+
+    try {
+        statusSpan.textContent = getTranslation('upload_preparing');
+        progressBar.style.display = 'block';
+        progressFill.style.width = '0%';
+        
+        const params = new URLSearchParams();
+        params.set('filename', file.name);
+        params.set('upload_dir', currentPath);
+
+        uploadDetails.textContent = (currentLanguage === 'zh' ? '文件: ' : 'File: ') + file.name + ` (${formatFileSize(file.size)}) - ` + (currentLanguage === 'zh' ? '目标目录: ' : 'Target directory: ') + currentPath;
+
+        setUploadState(true);
+        
+        const xhr = new XMLHttpRequest();
+        currentXhr = xhr;
+        
+        xhr.upload.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressFill.style.width = percentComplete + '%';
+                statusSpan.textContent = getTranslation('upload_uploading') + ': ' + percentComplete.toFixed(1) + '%';
+            }
+        });
+        
+        xhr.addEventListener('load', function() {
+            setUploadState(false);
+            currentXhr = null;
+            
+            if (xhr.status === 200) {
+                statusSpan.textContent = getTranslation('upload_complete');
+                progressFill.style.width = '100%';
+                uploadDetails.textContent += ' - ' + (currentLanguage === 'zh' ? '上传成功' : 'Upload successful');
+                spaceStatus.textContent = getTranslation('upload_complete');
+                spaceStatus.className = 'small';
+                
+                // 上传完成后刷新页面显示新文件
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                statusSpan.textContent = getTranslation('upload_failed') + ': ' + xhr.statusText;
+                uploadDetails.textContent += ' - ' + getTranslation('upload_failed');
+                spaceStatus.textContent = getTranslation('upload_failed');
+                spaceStatus.className = 'small space-warning';
+            }
+        });
+        
+        xhr.addEventListener('error', function() {
+            setUploadState(false);
+            currentXhr = null;
+            
+            statusSpan.textContent = getTranslation('upload_failed');
+            uploadDetails.textContent += ' - ' + getTranslation('upload_failed');
+            spaceStatus.textContent = getTranslation('upload_failed');
+            spaceStatus.className = 'small space-warning';
+        });
+        
+        xhr.addEventListener('abort', function() {
+            setUploadState(false);
+            currentXhr = null;
+            
+            statusSpan.textContent = getTranslation('upload_cancelled');
+            progressBar.style.display = 'none';
+            uploadDetails.textContent += ' - ' + (currentLanguage === 'zh' ? '已取消' : 'Cancelled');
+            spaceStatus.textContent = getTranslation('upload_cancelled');
+            spaceStatus.className = 'small';
+        });
+        
+        xhr.open('POST', '/upload?' + params.toString());
+        xhr.send(file);
+        
+    } catch (e) {
+        setUploadState(false);
+        currentXhr = null;
+        
+        statusSpan.textContent = getTranslation('upload_failed') + ': ' + e;
+        uploadDetails.textContent += ' - ' + getTranslation('upload_failed');
+        spaceStatus.textContent = getTranslation('upload_failed');
+        spaceStatus.className = 'small space-warning';
+    }
+});
+
+// 执行命令
+document.getElementById('cmd-run').addEventListener('click', async function() {
+    const cmd = document.getElementById('cmd-input').value;
+    const out = document.getElementById('cmd-output');
+    out.value = '';
+    if (!cmd) {
+        out.value = getTranslation('enter_command');
+        return;
+    }
+    try {
+        const body = new URLSearchParams();
+        body.set('cmd', cmd);
+        const resp = await fetch('/cmd', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body.toString()
+        });
+        const text = await resp.text();
+        out.value = text;
+    } catch (e) {
+        out.value = getTranslation('request_failed') + ': ' + e;
+    }
+});
+
+// 格式化文件大小显示
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// 防止在上传期间点击目录链接
+document.addEventListener('click', function(e) {
+    if (isUploading && (e.target.classList.contains('dir-link') || e.target.classList.contains('file-link'))) {
+        e.preventDefault();
+        alert(currentLanguage === 'zh' ? '文件上传中，请勿操作目录！' : 'File upload in progress, please do not operate directories!');
+    }
+});
+
+// 右键菜单功能
+function initContextMenu() {
+    // 为文件表格行添加右键菜单支持
+    const fileTable = document.getElementById('file-table-body');
+    
+    // 监听表格右键点击
+    fileTable.addEventListener('contextmenu', function(e) {
+        // 如果正在上传，阻止右键菜单
+        if (isUploading) {
+            e.preventDefault();
+            alert(currentLanguage === 'zh' ? '文件上传中，右键菜单已被禁用！' : 'File upload in progress, right-click menu is disabled!');
+            return;
+        }
+        
+        e.preventDefault();
+        
+        // 找到点击的行
+        let target = e.target;
+        while (target && target.nodeName !== 'TR') {
+            target = target.parentElement;
+        }
+        
+        if (target && target.classList.contains('file-row') && !target.classList.contains('disabled')) {
+            // 设置当前选中的项目 - 修复：使用状态对象
+            const cells = target.cells;
+            if (cells.length >= 2) {
+                contextMenuState.item = target;
+                
+                // 修复：正确识别目录和文件类型
+                const typeCellText = cells[0].textContent.trim();
+                if (typeCellText === '目录' || typeCellText === 'Directory') {
+                    contextMenuState.type = 'dir';
+                } else if (typeCellText === '文件' || typeCellText === 'File') {
+                    contextMenuState.type = 'file';
+                } else {
+                    // 默认按文件处理
+                    contextMenuState.type = 'file';
+                }
+                
+                // 获取文件名 - 从第二列获取
+                const nameCell = cells[1];
+                if (nameCell.querySelector('a')) {
+                    contextMenuState.name = nameCell.querySelector('a').textContent.trim();
+                } else {
+                    contextMenuState.name = nameCell.textContent.trim();
+                }
+                
+                contextMenuState.path = getCurrentPath();
+                
+                // 高亮显示选中的行
+                document.querySelectorAll('.file-row').forEach(row => {
+                    row.classList.remove('context-menu-active');
+                });
+                target.classList.add('context-menu-active');
+                
+                // 根据文件类型显示/隐藏下载菜单
+                const downloadMenu = document.getElementById('menu-download');
+                if (contextMenuState.type === 'dir') {
+                    downloadMenu.style.display = 'none';
+                } else {
+                    downloadMenu.style.display = 'block';
+                }
+                
+                console.log('右键菜单状态已设置:', contextMenuState);
+                // 显示右键菜单
+                showContextMenu(e.clientX, e.clientY);
+            }
+        }
+    });
+    
+    // 点击其他地方隐藏右键菜单
+    document.addEventListener('click', function(e) {
+        if (!contextMenu.contains(e.target)) {
+            hideContextMenu();
+        }
+    });
+    
+    // 右键菜单项点击事件
+    document.getElementById('menu-download').addEventListener('click', function() {
+        if (contextMenuState.item && contextMenuState.type === 'file') {
+            downloadFile();
+        }
+        hideContextMenu();
+    });
+    
+    document.getElementById('menu-rename').addEventListener('click', function() {
+        if (contextMenuState.item) {
+            showRenameModal();
+        }
+        hideContextMenu();
+    });
+    
+    document.getElementById('menu-delete').addEventListener('click', function() {
+        if (contextMenuState.item) {
+            showDeleteModal();
+        }
+        // 修复：只隐藏菜单，不清除状态
+        hideContextMenuOnly();
+    });
+    
+    // 模态框事件
+    document.getElementById('rename-cancel').addEventListener('click', function() {
+        hideModal('rename-modal');
+    });
+    
+    document.getElementById('delete-cancel').addEventListener('click', function() {
+        hideModal('delete-modal');
+    });
+    
+    // 修复：为确认删除按钮添加更可靠的事件监听
+    document.getElementById('delete-confirm').addEventListener('click', function() {
+        console.log('确认删除按钮被点击 - 新事件监听器');
+        deleteFile();
+    });
+    
+    document.getElementById('rename-confirm').addEventListener('click', function() {
+        renameFile();
+    });
+    
+    // 重命名输入框回车键支持
+    document.getElementById('rename-new-name').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            renameFile();
+        }
+    });
+    
+    // ESC键关闭模态框
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            hideModal('rename-modal');
+            hideModal('delete-modal');
+        }
+    });
+}
+
+// 显示右键菜单
+function showContextMenu(x, y) {
+    // 如果正在上传，不显示右键菜单
+    if (isUploading) {
+        return;
+    }
+    
+    // 设置菜单位置，确保不会超出屏幕
+    const menuWidth = contextMenu.offsetWidth;
+    const menuHeight = contextMenu.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    let posX = x;
+    let posY = y;
+    
+    if (x + menuWidth > windowWidth) {
+        posX = windowWidth - menuWidth - 10;
+    }
+    
+    if (y + menuHeight > windowHeight) {
+        posY = windowHeight - menuHeight - 10;
+    }
+    
+    contextMenu.style.left = posX + 'px';
+    contextMenu.style.top = posY + 'px';
+    contextMenu.style.display = 'block';
+}
+
+// 只隐藏菜单，不清除状态
+function hideContextMenuOnly() {
+    contextMenu.style.display = 'none';
+}
+
+// 隐藏右键菜单
+function hideContextMenu() {
+    contextMenu.style.display = 'none';
+    if (contextMenuState.item) {
+        contextMenuState.item.classList.remove('context-menu-active');
+    }
+    // 修复：不清除状态对象
+}
+
+// 清除右键菜单状态
+function clearContextMenuState() {
+    if (contextMenuState.item) {
+        contextMenuState.item.classList.remove('context-menu-active');
+    }
+    contextMenuState = {
+        item: null,
+        type: '',
+        name: '',
+        path: ''
+    };
+}
+
+// 显示重命名模态框
+function showRenameModal() {
+    const fileName = contextMenuState.name;
+    const fileType = contextMenuState.type === 'dir' ? (currentLanguage === 'zh' ? '目录' : 'Directory') : (currentLanguage === 'zh' ? '文件' : 'File');
+    
+    document.getElementById('rename-current-name').textContent = 
+        (currentLanguage === 'zh' ? '当前' : 'Current ') + fileType + (currentLanguage === 'zh' ? '名称: ' : ' name: ') + fileName;
+    document.getElementById('rename-new-name').value = fileName;
+    document.getElementById('rename-new-name').focus();
+    document.getElementById('rename-new-name').select();
+    
+    showModal('rename-modal');
+}
+
+// 显示删除确认模态框
+function showDeleteModal() {
+    const fileName = contextMenuState.name;
+    const fileType = contextMenuState.type === 'dir' ? (currentLanguage === 'zh' ? '目录' : 'Directory') : (currentLanguage === 'zh' ? '文件' : 'File');
+    
+    document.getElementById('delete-confirm-text').textContent = 
+        (currentLanguage === 'zh' ? '确定要删除' : 'Are you sure you want to delete ') + fileType + ' "' + fileName + '" ' + (currentLanguage === 'zh' ? '吗？' : '?');
+    
+    console.log('显示删除模态框，选中项目:', fileName);
+    showModal('delete-modal');
+}
+
+// 显示模态框
+function showModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+}
+
+// 隐藏模态框
+function hideModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// 下载文件
+function downloadFile() {
+    if (!contextMenuState.item || contextMenuState.type !== 'file') return;
+    
+    const fileName = contextMenuState.name;
+    const currentPath = contextMenuState.path;
+    const fullPath = currentPath.endsWith('/') ? currentPath + fileName : currentPath + '/' + fileName;
+    
+    // 创建下载链接
+    const downloadUrl = `/download?path=${encodeURIComponent(fullPath)}`;
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// 重命名文件
+async function renameFile() {
+    if (!contextMenuState.item) return;
+    
+    const oldName = contextMenuState.name;
+    const newName = document.getElementById('rename-new-name').value.trim();
+    const currentPath = contextMenuState.path;
+    
+    if (!newName) {
+        alert(currentLanguage === 'zh' ? '请输入新名称' : 'Please enter a new name');
+        return;
+    }
+    
+    if (newName === oldName) {
+        hideModal('rename-modal');
+        return;
+    }
+    
+    // 安全检查：防止目录遍历
+    if (newName.includes('/') || newName.includes('..')) {
+        alert(currentLanguage === 'zh' ? '文件名不能包含路径分隔符' : 'File name cannot contain path separators');
+        return;
+    }
+    
+    try {
+        // 修复：使用正确的参数名称
+        const formData = new URLSearchParams();
+        formData.append('old_path', currentPath + '/' + oldName);
+        formData.append('new_path', currentPath + '/' + newName);
+        
+        const response = await fetch('/rename', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        });
+        
+        if (response.ok) {
+            // 重命名成功，刷新页面
+            window.location.reload();
+        } else {
+            const error = await response.text();
+            alert((currentLanguage === 'zh' ? '重命名失败: ' : 'Rename failed: ') + error);
+        }
+    } catch (e) {
+        alert((currentLanguage === 'zh' ? '重命名请求失败: ' : 'Rename request failed: ') + e);
+    }
+    
+    hideModal('rename-modal');
+}
+
+// 删除文件 - 修复：使用状态对象
+async function deleteFile() {
+    console.log('deleteFile函数开始执行');
+    console.log('当前选中状态:', contextMenuState);
+    
+    if (!contextMenuState.item) {
+        console.log('删除操作：没有选中的项目');
+        alert(currentLanguage === 'zh' ? '错误：没有选中的文件或目录' : 'Error: No file or directory selected');
+        hideModal('delete-modal');
+        return;
+    }
+    
+    const fileName = contextMenuState.name;
+    const fileType = contextMenuState.type;
+    const currentPath = contextMenuState.path;
+    
+    if (!currentPath) {
+        console.log('删除操作：无法获取当前路径');
+        alert(currentLanguage === 'zh' ? '错误：无法确定当前路径' : 'Error: Cannot determine current path');
+        hideModal('delete-modal');
+        return;
+    }
+    
+    // 构建完整路径
+    let fullPath;
+    if (currentPath.endsWith('/')) {
+        fullPath = currentPath + fileName;
+    } else {
+        fullPath = currentPath + '/' + fileName;
+    }
+    
+    console.log('删除操作参数:', {
+        文件: fileName,
+        类型: fileType,
+        完整路径: fullPath
+    });
+    
+    try {
+        // 修复：使用正确的参数名称
+        const formData = new URLSearchParams();
+        formData.append('path', fullPath);
+        formData.append('type', fileType);
+        
+        console.log('发送删除请求到服务器...');
+        
+        const response = await fetch('/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        });
+        
+        console.log('服务器响应状态:', response.status);
+        
+        if (response.ok) {
+            console.log('删除成功，刷新页面');
+            // 删除成功，刷新页面
+            window.location.reload();
+        } else {
+            const error = await response.text();
+            console.log('删除失败:', error);
+            alert((currentLanguage === 'zh' ? '删除失败: ' : 'Delete failed: ') + error);
+        }
+    } catch (e) {
+        console.log('删除请求失败:', e);
+        alert((currentLanguage === 'zh' ? '删除请求失败: ' : 'Delete request failed: ') + e);
+    } finally {
+        // 无论成功与否，都关闭模态框
+        hideModal('delete-modal');
+        // 修复：操作完成后才清除状态
+        clearContextMenuState();
+    }
+}
+</script>
+</body>
+</html>

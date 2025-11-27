@@ -38,6 +38,13 @@ Works:
 - [X] Touch
 - [X] USB OTG
 - [X] Vibrator
+- [X] WLAN
+
+## About WLAN
+
+After Connect WiFi, you can use any other device like an other phone or PC to connect it's ip.
+Just type ip in browser, and have fun.
+note: Do not use Microsoft Edge, upload big files will always failed.
 
 ## To use it:
 
