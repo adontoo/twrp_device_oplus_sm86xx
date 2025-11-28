@@ -28,6 +28,7 @@ vendor.gatekeeper.is_security_level_spu=0
 
 # USB Config
 persist.sys.oem.otg_support=true
+service.adb.tcp.port=5555
 
 # Vibrator
 ro.oplus.haptic.lra_value_set=true
