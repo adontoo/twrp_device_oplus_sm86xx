@@ -33,8 +33,6 @@ on property:twrp.cpko=true
     insmod /odm/wifi/modules/cfg80211.ko
     write /dev/kmsg "[jasonwifi][early-init] WiFi early-init modules loaded successfully!"
     setprop twrp.insmodko 1
-    start microhttpd
-    write /dev/kmsg "[jasonwifi][microhttpd] microhttpd service started"
     ######## Add End
 
 on init
@@ -120,12 +118,6 @@ service dhcpcd /system/bin/dhcpcd wlan0 -B
 service cp-wifi-ko /system/bin/cp-wifi-ko.sh
     disabled
     oneshot
-    seclabel u:r:recovery:s0
-
-service microhttpd /system/bin/microhttpd
-    disabled
-    user root
-    group root
     seclabel u:r:recovery:s0
 
 # WiFi服务启动触发器，ADB中使用 setprop survival.start.service true 触发
