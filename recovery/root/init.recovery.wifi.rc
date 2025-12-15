@@ -75,30 +75,6 @@ service vendor.rmt_storage /vendor/bin/rmt_storage
     ioprio rt 0
     seclabel u:r:recovery:s0
 
-service vendor.tftp_server /vendor/bin/tftp_server
-    disabled
-    user root
-    seclabel u:r:recovery:s0
-    disabled
-
-service vendor.per_mgr /vendor/bin/pm-service
-    disabled
-    user root
-    group root
-    seclabel u:r:recovery:s0
-
-service vendor.pd_mapper /vendor/bin/pd-mapper
-    disabled
-    user root
-    group root
-    seclabel u:r:recovery:s0
-
-service vendor.per_proxy /vendor/bin/pm-proxy
-    disabled
-    user root
-    group root
-    seclabel u:r:recovery:s0
-
 service cnss-daemon /vendor/bin/cnss-daemon -n -l
     disabled
     user root
@@ -123,18 +99,10 @@ service cp-wifi-ko /system/bin/cp-wifi-ko.sh
 # WiFi服务启动触发器，ADB中使用 setprop survival.start.service true 触发
 on property:survival.start.service=true
     write /dev/kmsg "[jasonwifi][service] Starting Qualcomm services"
-    start vendor.pd_mapper
-    write /dev/kmsg "[jasonwifi][service] vendor.pd_mapper started"
-    start vendor.per_proxy
-    write /dev/kmsg "[jasonwifi][service] vendor.per_proxy started"
-    start vendor.per_mgr
-    write /dev/kmsg "[jasonwifi][service] vendor.per_mgr started"
     start vendor.qrtr-ns
     write /dev/kmsg "[jasonwifi][service] vendor.qrtr-ns started"
     start vendor.rmt_storage
     write /dev/kmsg "[jasonwifi][service] vendor.rmt_storage started"
-    start vendor.tftp_server
-    write /dev/kmsg "[jasonwifi][service] vendor.tftp_server started"
     write /dev/kmsg "[jasonwifi][service] Qualcomm services started successfuly!"
 
 # WiFi驱动加载触发器，ADB中使用 setprop qcomwlan.driver.load true 触发

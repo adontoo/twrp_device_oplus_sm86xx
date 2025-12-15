@@ -82,7 +82,7 @@ on property:servicemanager.ready=true
     start vendor.ssgtzd
 
 on property:twrp.variant.files_copied=1
-    start prepdecrypt.vendor
+    start override-spl
     umount /vendor
     symlink /firmware /vendor/firmware_mnt
     start vendor.oplus.vibrator
